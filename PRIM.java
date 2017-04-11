@@ -2,6 +2,8 @@ import java.util.Scanner;
 import java.util.Arrays;
 
 public class PRIM {
+
+	public static int aux = 0;
 	public static void main(String args[]) {
 
 		Scanner scan = new Scanner(System.in);
@@ -57,7 +59,7 @@ public class PRIM {
 		for(int j = tam; j > 0; j--) {
 
 			u = retiraMinimo(q, tam);
-			swap(q, u.verticeId, j); //Coloca o vertice retirado para o final do array
+			swap(q, aux, j); //Coloca o vertice retirado para o final do array
 			tam--;//Faz agora para (tam - 1) não contando com o elemento retirado
 
 			//Para cada vertice (vi), verifica vi esta na lista de prioridade e se a distancia para o vertice 'u' retirado da lista
@@ -85,9 +87,11 @@ public class PRIM {
 	public static No retiraMinimo(No[] q, int n) {
 
 		No min = q[0];
+		aux = 0;
 		for(int i = 1; i < n; i++) {
 			if(q[i].getChave() < min.getChave()) {
 				min = q[i];
+				aux = i;
 			}
 		}
 
