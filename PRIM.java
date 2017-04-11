@@ -56,21 +56,21 @@ public class PRIM {
 		int tam = (n-1);
 
 		//faz a iteração até que a heap estiver vazia
-		for(int j = tam; j > 0; j--) {
+		for(int j = tam; j >= 0; j--) {
 
 			u = retiraMinimo(q, tam);
-			swap(q, aux, j); //Coloca o vertice retirado para o final do array
+			swap(q, u.aux, tam); //Coloca o vertice retirado para o final do array
 			tam--;//Faz agora para (tam - 1) não contando com o elemento retirado
 
 			//Para cada vertice (vi), verifica vi esta na lista de prioridade e se a distancia para o vertice 'u' retirado da lista
 			//é menor que o valor guardado(chave) do vi
 			for(int i = 0; i < n; i++) {
-				if(v[i].verticeId != u.verticeId) {//Nao precisa disso ja que o vertice verificado ja foi retirado
-					if(pertence(q, v[i], n) && (mat[u.verticeId][v[i].verticeId] < v[i].getChave())) {
-						v[i].setPai(u);
-						v[i].setChave(mat[u.verticeId][v[i].verticeId]);
-					}
+				
+				if(pertence(q, v[i], tam) && (mat[u.verticeId][v[i].verticeId] < v[i].getChave())) {
+					v[i].setPai(u);
+					v[i].setChave(mat[u.verticeId][v[i].verticeId]);
 				}
+			
 			}
 		}
 
@@ -87,14 +87,15 @@ public class PRIM {
 	public static No retiraMinimo(No[] q, int n) {
 
 		No min = q[0];
-		aux = 0;
-		for(int i = 1; i < n; i++) {
+		min.aux = 0;
+		for(int i = 1; i <= n; i++) {
 			if(q[i].getChave() < min.getChave()) {
 				min = q[i];
-				aux = i;
+				min.aux = i;
 			}
 		}
 
+		System.out.println(min.verticeId);
 		return min;
 	}
 
@@ -108,7 +109,7 @@ public class PRIM {
 
 	//Verifica se o vertice v está no array q
 	public static boolean pertence(No[] q, No v, int n) {
-		for(int i = 0; i < n; i++) {
+		for(int i = 0; i <= n; i++) {
 			if(q[i].verticeId == v.verticeId) {
 				return true;
 			}
@@ -123,6 +124,8 @@ class No {
 	public int verticeId;
 	private int chave;
 	private No pai;
+
+	public int aux;
 
 	public No(int indice) {
 		this.verticeId = indice;
